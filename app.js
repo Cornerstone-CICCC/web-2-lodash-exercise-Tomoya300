@@ -24,25 +24,40 @@ const cities = [
 ];
 
 // GROUP ARRAY BY STATES
-const cityGroups =
-console.log(cityGroups)
+const cityGroups = _.groupBy(cities, "state");
+console.log("grouped by state", cityGroups)
 
 // SORT ARRAY ALPHABETICALLY BY CITY NAME
-const sortedCities =
-console.log(sortedCities)
+const sortedCities = _.sortBy(cities, "cityName")
+console.log("sorted alphabetically", sortedCities)
 
 // SHOW ONLY CITIES OF CALIFORNIA
-const californiaCities =
-console.log(californiaCities)
+const californiaCities = _.filter(cities, (city) => city.state === "California");
+console.log("cities of California", californiaCities)
 
 // SHOW ONLY CITIES OF TEXAS WITH A POPULATION OF LESS THAN 1 MILLION
-const texasCities =
-console.log(texasCities)
+const texasCities = _.filter(cities, (cityTex) => cityTex.state === "Texas" && cityTex.population < 1000000);
+console.log("less than 1 million popu Texas cities", texasCities)
 
 // ADD ALL THE POPULATION OF CALIFORNIA CITIES
-const californiaPopulation = 
-console.log(californiaCities)
+const californiaPopulation = _.chain(cities)
+  .filter(arr1 => arr1.state === "California")
+  .map("population")
+  .sum()
+  .value();
+console.log("sum of California cities popu", californiaPopulation)
 
 // GROUP BY PARTY AND SHOW ONLY CITIES WITH A POPULATION ABOVE 1 MILLION. SORT CITY NAMES ALPHABETICALLY
-const newData =
-console.log(newData)
+const newData = _.chain(cities)
+  .groupBy("party")
+  .mapValues(partySorted => _.filter(partySorted, obj => obj.population > 1000000))
+  .mapValues(partySorted => _.sortBy(partySorted, "cityName"))
+  .value();
+console.log("alphabetically sorted more than 1 million popu cities grouped by party", newData)
+
+// const popSort = _.filter(cities, obj => obj.population > 1000000)
+// const alphaSort = _.sortBy(popSort, "cityName")
+// const finalSort = _.groupBy(alphaSort, "party")
+// console.log("testing another way", finalSort)
+
+
