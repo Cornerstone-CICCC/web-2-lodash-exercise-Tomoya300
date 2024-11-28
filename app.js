@@ -49,15 +49,32 @@ console.log("sum of California cities popu", californiaPopulation)
 
 // GROUP BY PARTY AND SHOW ONLY CITIES WITH A POPULATION ABOVE 1 MILLION. SORT CITY NAMES ALPHABETICALLY
 const newData = _.chain(cities)
+  .filter(obj => obj.population > 1000000)
+  .sortBy("cityName")
   .groupBy("party")
-  .mapValues(partySorted => _.filter(partySorted, obj => obj.population > 1000000))
-  .mapValues(partySorted => _.sortBy(partySorted, "cityName"))
   .value();
 console.log("alphabetically sorted more than 1 million popu cities grouped by party", newData)
+
+// const newData = _.chain(cities)
+//   .groupBy("party")
+//   .mapValues(partySorted => _.filter(partySorted, obj => obj.population > 1000000))
+//   .mapValues(partySorted => _.sortBy(partySorted, "cityName"))
+//   .value();
+// console.log("alphabetically sorted more than 1 million popu cities grouped by party", newData);
+
 
 // const popSort = _.filter(cities, obj => obj.population > 1000000)
 // const alphaSort = _.sortBy(popSort, "cityName")
 // const finalSort = _.groupBy(alphaSort, "party")
 // console.log("testing another way", finalSort)
+
+//GROUP BY PARTY AND LIST POPULATION FOR EACH STATE
+const populationData = _.chain(cities)
+  .groupBy("party")
+  .mapValues(groups => _.map(groups, (val) => {
+    return {state: val.state, population: val.population}}
+  ))
+  .value()
+console.log("additional ex", populationData)
 
 
